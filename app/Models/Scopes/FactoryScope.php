@@ -14,7 +14,7 @@ class FactoryScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (Auth::guard('factory')->check()) {
+        if (Auth::guard('factory')->hasUser()) {
             $builder->where('factory_id', Auth::guard('factory')->user()->factory_id);
         }
     }

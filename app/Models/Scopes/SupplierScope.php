@@ -14,7 +14,7 @@ class SupplierScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        if (Auth::guard('supplier')->check()) {
+        if (Auth::guard('supplier')->hasUser()) {
             $builder->where('supplier_id', Auth::guard('supplier')->user()->supplier_id);
         }
     }
