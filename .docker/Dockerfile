@@ -46,6 +46,9 @@ WORKDIR /var/www/html
 # Copy application code
 COPY . .
 
+# Use production environment
+RUN cp .env.prod .env
+
 # Copy configuration files
 COPY .docker/nginx.conf       /etc/nginx/http.d/default.conf
 COPY .docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
