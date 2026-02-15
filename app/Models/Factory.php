@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Factory extends Model
 {
-
     protected $table = 'factories';
 
     /**
@@ -29,18 +29,42 @@ class Factory extends Model
     }
 
     /**
-     * Get the material stock for this factory.
+     * Get the sub-material stock for this factory.
      */
-    public function materials(): HasMany
+    public function subMaterials(): HasMany
     {
-        return $this->hasMany(FactoryMaterial::class);
+        return $this->hasMany(FactorySubMaterial::class);
     }
 
     /**
-     * Get all material transactions for this factory.
+     * Get all sub-material transactions for this factory.
      */
-    public function materialTransactions(): HasMany
+    public function subMaterialTransactions(): HasMany
     {
-        return $this->hasMany(FactoryMaterialTransaction::class);
+        return $this->hasMany(FactorySubMaterialTransaction::class);
+    }
+
+    /**
+     * Get the suppliers connected to this factory.
+     */
+    public function suppliers(): BelongsToMany
+    {
+        return $this->belongsToMany(Supplier::class)->withTimestamps();
+    }
+
+    /**
+     * Get all sub-materials for this factory (bypasses global scopes).
+     */
+    public function allSubMaterials(): HasMany
+    {
+        return $this->hasMany(FactorySubMaterial::class)->withoutGlobalScopes();
+    }
+
+    /**
+     * Get all supply requests for this factory.
+     */
+    public function supplyRequests(): HasMany
+    {
+        return $this->hasMany(SupplyRequest::class);
     }
 }

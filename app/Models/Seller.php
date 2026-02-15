@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -43,5 +44,13 @@ class Seller extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get all selling offers created by this seller.
+     */
+    public function sellingOffers(): HasMany
+    {
+        return $this->hasMany(SellingOffer::class);
     }
 }

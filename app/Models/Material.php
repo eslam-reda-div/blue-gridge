@@ -19,20 +19,4 @@ class Material extends Model
     {
         return $this->hasMany(MaterialSubCategory::class);
     }
-
-    /**
-     * Get the factory materials (inventory) for this material.
-     */
-    public function factoryMaterials(): HasMany
-    {
-        return $this->hasMany(FactoryMaterial::class);
-    }
-
-    /**
-     * Get all transactions for this material.
-     */
-    public function transactions(): HasMany
-    {
-        return $this->hasMany(FactoryMaterialTransaction::class);
-    }
 }
