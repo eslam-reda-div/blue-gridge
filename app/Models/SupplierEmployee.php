@@ -3,15 +3,22 @@
 namespace App\Models;
 
 use App\Models\Scopes\SupplierScope;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 #[ScopedBy(SupplierScope::class)]
-class SupplierEmployee extends Authenticatable
+class SupplierEmployee extends Authenticatable implements FilamentUser
 {
     use Notifiable;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $panel->getId() === 'supplier';
+    }
 
     protected $guard = 'supplier';
 

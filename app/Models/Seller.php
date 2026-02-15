@@ -2,13 +2,20 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Seller extends Authenticatable
+class Seller extends Authenticatable implements FilamentUser
 {
     use Notifiable;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $panel->getId() === 'seller';
+    }
 
     protected $guard = 'seller';
 

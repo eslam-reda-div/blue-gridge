@@ -3,15 +3,22 @@
 namespace App\Models;
 
 use App\Models\Scopes\FactoryScope;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 #[ScopedBy(FactoryScope::class)]
-class FactoryEmployee extends Authenticatable
+class FactoryEmployee extends Authenticatable implements FilamentUser
 {
     use Notifiable;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $panel->getId() === 'factory';
+    }
 
     protected $guard = 'factory';
 
