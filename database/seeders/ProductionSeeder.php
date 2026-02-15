@@ -28,6 +28,30 @@ class ProductionSeeder extends Seeder
     /** @var Collection<int, MaterialSubCategory> */
     private Collection $allSubs;
 
+    /**
+     * Production-safe random float (no faker dependency).
+     */
+    private function randomFloat(int $decimals, float $min, float $max): float
+    {
+        return round($min + mt_rand() / mt_getrandmax() * ($max - $min), $decimals);
+    }
+
+    /**
+     * Pick a random element from an array.
+     */
+    private function randomElement(array $items): mixed
+    {
+        return $items[array_rand($items)];
+    }
+
+    /**
+     * Return true with the given percentage probability.
+     */
+    private function boolean(int $chanceOfTrue = 50): bool
+    {
+        return rand(1, 100) <= $chanceOfTrue;
+    }
+
     public function run(): void
     {
         $this->password = Hash::make('password');
@@ -345,12 +369,12 @@ class ProductionSeeder extends Seeder
                     if ($i < 3) {
                         $type = 'insert';
                     } else {
-                        $type = fake()->randomElement(['insert', 'insert', 'insert', 'use', 'use']);
+                        $type = $this->randomElement(['insert', 'insert', 'insert', 'use', 'use']);
                     }
 
                     $qty = $type === 'insert'
-                        ? fake()->randomFloat(2, 50, 800)
-                        : fake()->randomFloat(2, 10, min(200, max(10, $runningQty * 0.4)));
+                        ? $this->randomFloat(2, 50, 800)
+                        : $this->randomFloat(2, 10, min(200, max(10, $runningQty * 0.4)));
 
                     if ($type === 'insert') {
                         $runningQty += $qty;
@@ -359,7 +383,7 @@ class ProductionSeeder extends Seeder
                         $qty = min($qty, max(0, $runningQty - 5));
                         if ($qty <= 0) {
                             $type = 'insert';
-                            $qty = fake()->randomFloat(2, 50, 300);
+                            $qty = $this->randomFloat(2, 50, 300);
                             $runningQty += $qty;
                         } else {
                             $runningQty -= $qty;
@@ -444,7 +468,7 @@ class ProductionSeeder extends Seeder
             $txnRows = [];
 
             foreach ($selectedSubs as $sub) {
-                $safeAmount = fake()->randomFloat(2, 30, 250);
+                $safeAmount = $this->randomFloat(2, 30, 250);
                 $runningQty = 0.0;
                 $txnCount = rand(15, 35);
 
@@ -457,12 +481,12 @@ class ProductionSeeder extends Seeder
                         $type = 'insert';
                     } else {
                         // Factories use more than they insert
-                        $type = fake()->randomElement(['insert', 'use', 'use', 'use']);
+                        $type = $this->randomElement(['insert', 'use', 'use', 'use']);
                     }
 
                     $qty = $type === 'insert'
-                        ? fake()->randomFloat(2, 80, 600)
-                        : fake()->randomFloat(2, 5, min(150, max(5, $runningQty * 0.3)));
+                        ? $this->randomFloat(2, 80, 600)
+                        : $this->randomFloat(2, 5, min(150, max(5, $runningQty * 0.3)));
 
                     if ($type === 'insert') {
                         $runningQty += $qty;
@@ -470,7 +494,7 @@ class ProductionSeeder extends Seeder
                         $qty = min($qty, max(0, $runningQty - 2));
                         if ($qty <= 0) {
                             $type = 'insert';
-                            $qty = fake()->randomFloat(2, 80, 400);
+                            $qty = $this->randomFloat(2, 80, 400);
                             $runningQty += $qty;
                         } else {
                             $runningQty -= $qty;
@@ -556,8 +580,8 @@ class ProductionSeeder extends Seeder
 
                 $sub = $this->allSubs->firstWhere('id', $subId) ?? $this->allSubs->random();
 
-                $status = fake()->randomElement(['pending', 'pending', 'pending', 'accepted', 'accepted', 'rejected']);
-                $qtyNeeded = fake()->randomFloat(2, 30, 800);
+                $status = $this->randomElement(['pending', 'pending', 'pending', 'accepted', 'accepted', 'rejected']);
+                $qtyNeeded = $this->randomFloat(2, 30, 800);
                 $daysAgo = rand(0, 60);
                 $createdAt = now()->subDays($daysAgo);
 
@@ -566,7 +590,7 @@ class ProductionSeeder extends Seeder
                     'material_sub_category_id' => $sub->id,
                     'quantity_needed' => $qtyNeeded,
                     'status' => $status,
-                    'triggered_by' => fake()->randomElement(['auto', 'auto', 'auto', 'manual']),
+                    'triggered_by' => $this->randomElement(['auto', 'auto', 'auto', 'manual']),
                     'accepted_by_supplier_id' => null,
                     'created_at' => $createdAt,
                     'updated_at' => $createdAt,
@@ -596,7 +620,7 @@ class ProductionSeeder extends Seeder
                     $respondedAt = null;
 
                     if ($status === 'accepted') {
-                        if (! $acceptedSupplierId && fake()->boolean(60)) {
+                        if (! $acceptedSupplierId && $this->boolean(60)) {
                             $supplierStatus = 'accepted';
                             $acceptedSupplierId = $supplierId;
                             $respondedAt = $createdAt->copy()->addHours(rand(2, 72));
@@ -773,8 +797,8 @@ class ProductionSeeder extends Seeder
 
             for ($o = 0; $o < $offerCount; $o++) {
                 $sub = $this->allSubs->random();
-                $type = fake()->randomElement(['broadcast', 'broadcast', 'broadcast', 'targeted']);
-                $status = fake()->randomElement(['open', 'open', 'open', 'open', 'accepted', 'accepted', 'closed']);
+                $type = $this->randomElement(['broadcast', 'broadcast', 'broadcast', 'targeted']);
+                $status = $this->randomElement(['open', 'open', 'open', 'open', 'accepted', 'accepted', 'closed']);
                 $daysAgo = rand(0, 75);
                 $createdAt = now()->subDays($daysAgo);
 
@@ -789,9 +813,9 @@ class ProductionSeeder extends Seeder
                 $offer = SellingOffer::create([
                     'seller_id' => $seller->id,
                     'material_sub_category_id' => $sub->id,
-                    'quantity' => fake()->randomFloat(2, 15, 1200),
-                    'price_per_unit' => fake()->boolean(75) ? fake()->randomFloat(2, 5, 750) : null,
-                    'notes' => fake()->boolean(70) ? $offerNotes[array_rand($offerNotes)] : null,
+                    'quantity' => $this->randomFloat(2, 15, 1200),
+                    'price_per_unit' => $this->boolean(75) ? $this->randomFloat(2, 5, 750) : null,
+                    'notes' => $this->boolean(70) ? $offerNotes[array_rand($offerNotes)] : null,
                     'type' => $type,
                     'status' => $status,
                     'accepted_by_supplier_id' => $acceptedBySupplierId,
