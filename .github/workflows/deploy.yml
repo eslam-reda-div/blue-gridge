@@ -34,3 +34,25 @@ jobs:
           tags: ghcr.io/eslam-reda-div/blue-gridge:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy-to-server:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Deploy with Docker
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker pull ghcr.io/eslam-reda-div/blue-gridge:latest
+            docker stop blue-gridge || true
+            docker rm blue-gridge || true
+            docker run -d --name blue-gridge --restart unless-stopped -p 80:80 ghcr.io/eslam-reda-div/blue-gridge:latest
+            docker images --filter "dangling=true" -q --no-trunc | xargs -r docker rmi
