@@ -36,6 +36,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     opcache \
     pcntl \
     pdo_mysql \
+    pdo_sqlite \
     zip
 
 # Composer
@@ -64,6 +65,11 @@ RUN npm install && npm run build
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
+
+# Create SQLite database, run migrations and seed
+RUN touch database/database.sqlite \
+    && php artisan migrate --force --no-interaction \
+    && php artisan db:seed --force --no-interaction
 
 # Laravel optimizations
 RUN php artisan storage:link \
