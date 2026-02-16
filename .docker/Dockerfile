@@ -16,6 +16,7 @@ RUN apk update && apk upgrade --no-cache && apk add --no-cache \
     libwebp-dev \
     libzip-dev \
     oniguruma-dev \
+    sqlite-dev \
     supervisor \
     nodejs \
     npm \
