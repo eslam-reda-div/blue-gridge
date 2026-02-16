@@ -29,6 +29,7 @@ class FactoryPanelProvider extends PanelProvider
             ->login()
             ->authGuard('factory')
             ->authPasswordBroker('factory_employees')
+            ->favicon('/favicon.ico')
             ->colors([
                 'primary' => Color::Blue,
             ])

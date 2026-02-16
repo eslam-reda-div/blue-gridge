@@ -29,6 +29,7 @@ class SupplierPanelProvider extends PanelProvider
             ->login()
             ->authGuard('supplier')
             ->authPasswordBroker('supplier_employees')
+            ->favicon('/favicon.ico')
             ->colors([
                 'primary' => Color::Green,
             ])

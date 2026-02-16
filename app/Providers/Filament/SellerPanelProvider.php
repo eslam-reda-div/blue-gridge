@@ -30,6 +30,7 @@ class SellerPanelProvider extends PanelProvider
             ->registration()
             ->authGuard('seller')
             ->authPasswordBroker('sellers')
+            ->favicon('/favicon.ico')
             ->colors([
                 'primary' => Color::Rose,
             ])

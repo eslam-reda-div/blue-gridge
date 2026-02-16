@@ -30,6 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->authGuard('admin')
             ->authPasswordBroker('admins')
+            ->favicon('/favicon.ico')
             ->colors([
                 'primary' => Color::Amber,
             ])
