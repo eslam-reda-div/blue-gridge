@@ -3,6 +3,7 @@
 namespace App\Filament\Seller\Resources\SellingOffers;
 
 use App\Filament\Seller\Resources\SellingOffers\Pages\CreateSellingOffer;
+use App\Filament\Seller\Resources\SellingOffers\Pages\EditSellingOffer;
 use App\Filament\Seller\Resources\SellingOffers\Pages\ListSellingOffers;
 use App\Filament\Seller\Resources\SellingOffers\Pages\ViewSellingOffer;
 use App\Filament\Seller\Resources\SellingOffers\Schemas\SellingOfferForm;
@@ -62,6 +63,7 @@ class SellingOfferResource extends Resource
             'index' => ListSellingOffers::route('/'),
             'create' => CreateSellingOffer::route('/create'),
             'view' => ViewSellingOffer::route('/{record}'),
+            'edit' => EditSellingOffer::route('/{record}/edit'),
         ];
     }
 }

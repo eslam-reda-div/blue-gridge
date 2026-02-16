@@ -14,99 +14,139 @@
         "DM Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --radius: 0.75rem;
+
+    /* Register shadcn/ui colors so bg-*, text-*, border-* utilities work */
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+    --color-card: hsl(var(--card));
+    --color-card-foreground: hsl(var(--card-foreground));
+    --color-popover: hsl(var(--popover));
+    --color-popover-foreground: hsl(var(--popover-foreground));
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-secondary: hsl(var(--secondary));
+    --color-secondary-foreground: hsl(var(--secondary-foreground));
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-destructive: hsl(var(--destructive));
+    --color-destructive-foreground: hsl(var(--destructive-foreground));
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-ring: hsl(var(--ring));
+
+    /* Custom brand colors */
+    --color-earth-brown: hsl(var(--earth-brown));
+    --color-earth-brown-light: hsl(var(--earth-brown-light));
+    --color-sand: hsl(var(--sand));
+    --color-cream: hsl(var(--cream));
+    --color-olive: hsl(var(--olive));
+    --color-forest: hsl(var(--forest));
+    --color-forest-light: hsl(var(--forest-light));
+    --color-leaf: hsl(var(--leaf));
+    --color-warm-white: hsl(var(--warm-white));
+
+    /* Sidebar colors */
+    --color-sidebar-background: hsl(var(--sidebar-background));
+    --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+    --color-sidebar-primary: hsl(var(--sidebar-primary));
+    --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+    --color-sidebar-accent: hsl(var(--sidebar-accent));
+    --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+    --color-sidebar-border: hsl(var(--sidebar-border));
+    --color-sidebar-ring: hsl(var(--sidebar-ring));
 }
 
 /*
- * Landing page theme: CSS custom properties for shadcn/ui components
+ * CSS custom properties for shadcn/ui theming (light + dark)
  */
-@layer base {
-    :root {
-        --background: 40 33% 96%;
-        --foreground: 150 20% 15%;
-        --card: 40 30% 94%;
-        --card-foreground: 150 20% 15%;
-        --popover: 40 33% 96%;
-        --popover-foreground: 150 20% 15%;
-        --primary: 145 45% 28%;
-        --primary-foreground: 40 33% 96%;
-        --secondary: 30 30% 45%;
-        --secondary-foreground: 40 33% 96%;
-        --muted: 40 20% 90%;
-        --muted-foreground: 150 10% 40%;
-        --accent: 85 30% 45%;
-        --accent-foreground: 40 33% 96%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 40% 98%;
-        --border: 40 20% 82%;
-        --input: 40 20% 82%;
-        --ring: 145 45% 28%;
-        --earth-brown: 30 30% 35%;
-        --earth-brown-light: 30 25% 55%;
-        --sand: 38 40% 85%;
-        --cream: 42 40% 94%;
-        --olive: 85 25% 40%;
-        --forest: 145 50% 22%;
-        --forest-light: 145 40% 35%;
-        --leaf: 120 35% 50%;
-        --warm-white: 40 30% 98%;
-        --sidebar-background: 0 0% 98%;
-        --sidebar-foreground: 240 5.3% 26.1%;
-        --sidebar-primary: 240 5.9% 10%;
-        --sidebar-primary-foreground: 0 0% 98%;
-        --sidebar-accent: 240 4.8% 95.9%;
-        --sidebar-accent-foreground: 240 5.9% 10%;
-        --sidebar-border: 220 13% 91%;
-        --sidebar-ring: 217.2 91.2% 59.8%;
-    }
+:root {
+    --background: 40 33% 96%;
+    --foreground: 150 20% 15%;
+    --card: 40 30% 94%;
+    --card-foreground: 150 20% 15%;
+    --popover: 40 33% 96%;
+    --popover-foreground: 150 20% 15%;
+    --primary: 145 45% 28%;
+    --primary-foreground: 40 33% 96%;
+    --secondary: 30 30% 45%;
+    --secondary-foreground: 40 33% 96%;
+    --muted: 40 20% 90%;
+    --muted-foreground: 150 10% 40%;
+    --accent: 85 30% 45%;
+    --accent-foreground: 40 33% 96%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 40 20% 82%;
+    --input: 40 20% 82%;
+    --ring: 145 45% 28%;
+    --earth-brown: 30 30% 35%;
+    --earth-brown-light: 30 25% 55%;
+    --sand: 38 40% 85%;
+    --cream: 42 40% 94%;
+    --olive: 85 25% 40%;
+    --forest: 145 50% 22%;
+    --forest-light: 145 40% 35%;
+    --leaf: 120 35% 50%;
+    --warm-white: 40 30% 98%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+}
 
-    .dark {
-        --background: 150 15% 8%;
-        --foreground: 40 30% 92%;
-        --card: 150 15% 12%;
-        --card-foreground: 40 30% 92%;
-        --popover: 150 15% 8%;
-        --popover-foreground: 40 30% 92%;
-        --primary: 145 45% 40%;
-        --primary-foreground: 150 15% 8%;
-        --secondary: 30 25% 35%;
-        --secondary-foreground: 40 30% 92%;
-        --muted: 150 10% 18%;
-        --muted-foreground: 40 15% 60%;
-        --accent: 85 25% 35%;
-        --accent-foreground: 40 30% 92%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 40% 98%;
-        --border: 150 10% 20%;
-        --input: 150 10% 20%;
-        --ring: 145 45% 40%;
-        --sidebar-background: 240 5.9% 10%;
-        --sidebar-foreground: 240 4.8% 95.9%;
-        --sidebar-primary: 224.3 76.3% 48%;
-        --sidebar-primary-foreground: 0 0% 100%;
-        --sidebar-accent: 240 3.7% 15.9%;
-        --sidebar-accent-foreground: 240 4.8% 95.9%;
-        --sidebar-border: 240 3.7% 15.9%;
-        --sidebar-ring: 217.2 91.2% 59.8%;
-    }
+.dark {
+    --background: 150 15% 8%;
+    --foreground: 40 30% 92%;
+    --card: 150 15% 12%;
+    --card-foreground: 40 30% 92%;
+    --popover: 150 15% 8%;
+    --popover-foreground: 40 30% 92%;
+    --primary: 145 45% 40%;
+    --primary-foreground: 150 15% 8%;
+    --secondary: 30 25% 35%;
+    --secondary-foreground: 40 30% 92%;
+    --muted: 150 10% 18%;
+    --muted-foreground: 40 15% 60%;
+    --accent: 85 25% 35%;
+    --accent-foreground: 40 30% 92%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 150 10% 20%;
+    --input: 150 10% 20%;
+    --ring: 145 45% 40%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+}
 
-    * {
-        border-color: hsl(var(--border));
-    }
+* {
+    border-color: hsl(var(--border));
+}
 
-    body {
-        background-color: hsl(var(--background));
-        color: hsl(var(--foreground));
-        font-family: "DM Sans", sans-serif;
-    }
+body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: "DM Sans", sans-serif;
+}
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-family: "Playfair Display", serif;
-    }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Playfair Display", serif;
 }
 
 @utility text-gradient-green {

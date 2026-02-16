@@ -1,10 +1,29 @@
 import { Leaf } from "lucide-react";
 
 const footerLinks = {
-  Platform: ["How It Works", "Features", "Pricing", "Analytics"],
-  Company: ["About Us", "Careers", "Blog", "Press"],
-  Resources: ["Documentation", "API", "Support", "Community"],
-  Legal: ["Privacy Policy", "Terms of Service", "Cookie Policy"],
+  Platform: [
+    { label: "How It Works", href: "#" },
+    { label: "Features", href: "#" },
+    { label: "Pricing", href: "#" },
+    { label: "Analytics", href: "#" },
+  ],
+  Company: [
+    { label: "About Us", href: "#" },
+    { label: "Careers", href: "#" },
+    { label: "Blog", href: "#" },
+    { label: "Press", href: "#" },
+  ],
+  Dashboards: [
+    { label: "Admin Panel", href: "/admin" },
+    { label: "Factory Panel", href: "/factory" },
+    { label: "Supplier Panel", href: "/supplier" },
+    { label: "Seller Panel", href: "/seller" },
+  ],
+  Legal: [
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Service", href: "#" },
+    { label: "Cookie Policy", href: "#" },
+  ],
 };
 
 const Footer = () => {
@@ -34,12 +53,12 @@ const Footer = () => {
               </h4>
               <ul className="space-y-2">
                 {links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <a
-                      href="#"
+                      href={link.href}
                       className="text-sm text-primary-foreground/50 hover:text-eco-leaf transition-colors"
                     >
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}

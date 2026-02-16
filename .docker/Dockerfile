@@ -59,7 +59,7 @@ COPY .docker/opcache.ini      /usr/local/etc/php/conf.d/opcache.ini
 RUN composer install --no-dev --optimize-autoloader --classmap-authoritative --prefer-dist --no-interaction
 
 # Install and build front-end assets
-RUN npm ci && npm run build && rm -rf node_modules
+RUN npm install && npm run build
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \

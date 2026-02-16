@@ -4,6 +4,7 @@ namespace App\Filament\Seller\Resources\SellingOffers\Tables;
 
 use App\Models\SellingOffer;
 use Filament\Actions\Action;
+use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -75,6 +76,8 @@ class SellingOffersTable
             ])
             ->recordActions([
                 ViewAction::make(),
+                EditAction::make()
+                    ->visible(fn (SellingOffer $record): bool => $record->isOpen()),
                 Action::make('close')
                     ->label('Close')
                     ->icon(Heroicon::OutlinedXCircle)
@@ -84,7 +87,15 @@ class SellingOffersTable
                     ->modalDescription('Are you sure you want to close this offer? Suppliers will no longer be able to accept it.')
                     ->visible(fn (SellingOffer $record): bool => $record->isOpen())
                     ->action(fn (SellingOffer $record) => $record->update(['status' => 'closed'])),
-            ])
-            ->toolbarActions([]);
+                Action::make('reopen')
+                    ->label('Reopen')
+                    ->icon(Heroicon::OutlinedArrowPath)
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading('Reopen Offer')
+                    ->modalDescription('This will reopen the offer so suppliers can see and accept it again.')
+                    ->visible(fn (SellingOffer $record): bool => $record->isClosed())
+                    ->action(fn (SellingOffer $record) => $record->update(['status' => 'open', 'accepted_by_supplier_id' => null, 'accepted_at' => null])),
+            ]);
     }
 }
